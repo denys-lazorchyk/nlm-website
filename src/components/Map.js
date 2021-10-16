@@ -8,17 +8,14 @@ import {
 	Popup,
 	useMapEvent,
 	useMapEvents,
+	useMap,
 } from "react-leaflet";
 
-const Map = () => {
-	let [clicked, setCliked] = useState(null);
-	let [sites, setSites] = useState([]);
-
+const Map = ({ setCliked, clicked, places }) => {
 	function MyComponent() {
 		const map = useMapEvent({
 			click: (e) => {
 				setCliked(e.latlng);
-				setSites([...sites, e.latlng]);
 			},
 		});
 		return null;
@@ -30,14 +27,16 @@ const Map = () => {
 				attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			<Marker position={[51.505, -0.09]}>
-				<Popup>
-					A pretty CSS3 popup. <br /> Easily customizable.
-				</Popup>
-			</Marker>
+			{clicked && (
+				<Marker position={[clicked.lat, clicked.lng]}>
+					<Popup>
+						A pretty CSS3 popup. <br /> Easily customizable.
+					</Popup>
+				</Marker>
+			)}
 
-			{sites.length &&
-				sites.map((site) => {
+			{places.length &&
+				places.map((site) => {
 					return (
 						<Marker position={[site.lat, site.lng]} key={uuidv4()}>
 							<Popup>

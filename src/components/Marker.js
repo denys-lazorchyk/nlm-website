@@ -18,6 +18,7 @@ const Marker = ({ color }) => {
 const StyledMarker = styled.svg`
 	cursor: pointer;
 	width: 100%;
+	margin: 5px 0px;
 `;
 
 export default Marker;

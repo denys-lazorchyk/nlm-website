@@ -3,11 +3,11 @@ import Markers from "./Markers";
 import styled from "styled-components";
 import arrow from "../img/arrow.svg";
 
-const Form = () => {
-	let [openMenu, setMenu] = useState(false);
-	let [title, setTitle] = useState("");
-	let [type, setType] = useState("");
-	let [amount, setAmount] = useState("");
+const Form = ({ places, setPlaces, clicked, setCliked }) => {
+	const [openMenu, setMenu] = useState(false);
+	const [title, setTitle] = useState("");
+	const [type, setType] = useState("");
+	const [amount, setAmount] = useState("");
 
 	const arrowHandler = () => {
 		setMenu(!openMenu);
@@ -31,11 +31,34 @@ const Form = () => {
 		setAmount("");
 	};
 
+	const submitHandler = () => {
+		if (title && type && amount && clicked) {
+			setPlaces([
+				...places,
+				{
+					lat: clicked.lat,
+					lng: clicked.lng,
+					data: {
+						type: type,
+						amount: amount,
+						title: title,
+					},
+				},
+			]);
+
+			setCliked(null);
+		}
+	};
+
 	return (
 		<>
 			<StyledForm className={openMenu ? "active" : ""}>
 				<MarkersHolder>
-					<Markers open={openMenu}></Markers>
+					<Markers
+						open={openMenu}
+						places={places}
+						setPlcese={setPlaces}
+					></Markers>
 				</MarkersHolder>
 				<Open>
 					<img
@@ -97,7 +120,7 @@ const Form = () => {
 					<button className="clean" onClick={clearInput}>
 						Wyczyść
 					</button>
-					<button className="submit" type="submit">
+					<button className="submit" type="submit" onClick={submitHandler}>
 						Zatwierdź
 					</button>
 				</Buttons>
@@ -131,7 +154,7 @@ const StyledForm = styled.div`
 		padding-left: 80px;
 
 		img {
-			transform: translateX(-80px);
+			transform: translateX(-80px) rotate(180deg);
 		}
 	}
 `;
@@ -148,7 +171,6 @@ const Open = styled.div`
 	img {
 		fill: green;
 		transition: 1s all;
-		transform: rotate(180deg);
 		cursor: pointer;
 	}
 

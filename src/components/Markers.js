@@ -1,13 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import add from "../img/add.svg";
 import Marker from "./Marker";
 
-const Markers = ({ open }) => {
+import { useMap } from "react-leaflet";
+
+const Markers = ({ open, places }) => {
+	const colors = {
+		przeplyw1: "#B9B9B9",
+		przeplyw2: "#01D404",
+		przeplyw3: "#D45202",
+		przeplyw4: "#0B4566",
+		przeplyw5: "#000000",
+		sprzedaż1: "#01D29C",
+		sprzedaż2: "#BB03D7",
+		sprzedaż3: "#780000",
+	};
+
 	return (
 		<StyledMarkers className={open ? "active" : ""}>
-			<img src={add} alt="Add new marker" />
-			<Marker color={"green"}></Marker>
+			{/* <img className="plus" src={add} alt="Add new marker" /> */}
+
+			{places.length > 0 &&
+				places.map((place) => {
+					return <Marker color={colors[place.data.type]}></Marker>;
+				})}
 		</StyledMarkers>
 	);
 };
@@ -23,18 +40,8 @@ const StyledMarkers = styled.div`
 	padding: 10px;
 	transition: 1s all;
 
-	img {
-		width: 100%;
-		cursor: pointer;
-		margin-bottom: 10px;
-	}
-
 	&.active {
 		left: -280px;
-
-		img {
-			transform: translateX(0px);
-		}
 	}
 `;
 

@@ -1,0 +1,5 @@
+add colorful points to legenda przypluwy
+add legenda strefy
+make colorful markers based on amount
+center a map on click
+responsiveness
