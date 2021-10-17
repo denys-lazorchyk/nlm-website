@@ -1,48 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 import {
 	MapContainer,
 	TileLayer,
-	Marker,
+	CircleMarker,
 	Popup,
 	useMapEvent,
-	useMapEvents,
-	useMap,
+	Circle,
 } from "react-leaflet";
 
-const Map = ({ setCliked, clicked, places }) => {
+const Map = ({
+	setCliked,
+	clicked,
+	places,
+	clickedMarker,
+	setClikedMarker,
+}) => {
 	function MyComponent() {
 		const map = useMapEvent({
 			click: (e) => {
 				setCliked(e.latlng);
 			},
 		});
+
+		if (clickedMarker) {
+			map.setView([clickedMarker.lat, clickedMarker.lng]);
+			setClikedMarker(null);
+		}
+
 		return null;
 	}
 
 	return (
-		<MainMap center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+		<MainMap center={[52.2297, 21.0122]} zoom={13} scrollWheelZoom={false}>
 			<TileLayer
 				attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{clicked && (
-				<Marker position={[clicked.lat, clicked.lng]}>
-					<Popup>
-						A pretty CSS3 popup. <br /> Easily customizable.
-					</Popup>
-				</Marker>
-			)}
+			{clicked && <Circle radius={200} center={[clicked.lat, clicked.lng]} />}
 
 			{places.length &&
 				places.map((site) => {
 					return (
-						<Marker position={[site.lat, site.lng]} key={uuidv4()}>
+						<CircleMarker
+							radius={20}
+							center={[site.lat, site.lng]}
+							key={uuidv4()}
+							pathOptions={{ color: site.data.color }}
+						>
 							<Popup>
-								A pretty CSS3 popup. <br /> Easily customizable.
+								{site.data.title} z {site.data.amount} m3/dzień
 							</Popup>
-						</Marker>
+						</CircleMarker>
 					);
 				})}
 			<MyComponent></MyComponent>
@@ -53,7 +63,7 @@ const Map = ({ setCliked, clicked, places }) => {
 const MainMap = styled(MapContainer)`
 	height: calc(100vh - 70px);
 	width: 100vw;
-	margin-top: 7vh;
+	margin-top: 70px;
 	z-index: 20;
 `;
 

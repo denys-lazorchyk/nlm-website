@@ -31,7 +31,7 @@ const StyledNav = styled.nav`
 
 		img {
 			height: 80%;
-			margin: 5% 30px;
+			margin: 10px 30px;
 			cursor: pointer;
 		}
 	}

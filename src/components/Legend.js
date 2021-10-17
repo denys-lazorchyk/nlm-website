@@ -3,70 +3,97 @@ import arrowLegend from "../img/arrowLegend.svg";
 import styled from "styled-components";
 import Marker from "./Marker";
 
-const Legend = () => {
-	const [openLegend, setLegend] = useState(true);
+const Legend = ({ data, colors, title, square }) => {
+	const [openLegend, setLegend] = useState(false);
 
 	const openHandler = () => {
 		setLegend(!openLegend);
 	};
 
+	const heightDiv = (data.length + 1) * 42;
+
 	return (
-		<StyledLegend className={openLegend ? "" : "active"}>
-			<PointsHolder className={openLegend ? "" : "active"}>
-				<Point>
-					<p>info</p>
-					<Marker color="black"></Marker>
-				</Point>
-				<Point>
-					<p>info2</p>
-					<Marker color="black"></Marker>
-				</Point>
-				<Point>
-					<p>info3</p>
-					<Marker color="black"></Marker>
-				</Point>
-				<Point>
-					<p>info4</p>
-					<Marker color="black"></Marker>
-				</Point>
-				<Point>
-					<p>info5</p>
-					<Marker color="black"></Marker>
-				</Point>
-			</PointsHolder>
-			<Closable onClick={openHandler} className={openLegend ? "" : "active"}>
-				<h4>Legenda pzepływu</h4>
-				<img src={arrowLegend} alt="arrow" />
-			</Closable>
+		<StyledLegend
+			style={{ height: `${heightDiv}px` }}
+			className={openLegend ? "" : "active"}
+		>
+			<Wow
+				className={openLegend ? "" : "active"}
+				style={{ height: `${heightDiv - 42}px` }}
+			>
+				<PointsHolder>
+					{data.map((item, index) => {
+						return (
+							<Point>
+								<p>{item}</p>
+								{!square ? (
+									<Marker color={colors[index]}></Marker>
+								) : (
+									<Square style={{ backgroundColor: colors[index] }} />
+								)}
+							</Point>
+						);
+					})}
+				</PointsHolder>
+				<Closable onClick={openHandler}>
+					<h4>{title}</h4>
+					<img src={arrowLegend} alt="arrow" />
+				</Closable>
+			</Wow>
 		</StyledLegend>
 	);
 };
 
 const StyledLegend = styled.div`
-	background-color: white;
 	overflow: hidden;
-	transition: 0.9s all;
-	height: 220px;
+	margin: 0px 10px;
+	transition: 1s all;
+	&.active {
+		height: 50px !important;
+	}
+
+	@media (max-width: 1000px) {
+		width: 300px;
+
+		&.active {
+			height: auto;
+			padding-bottom: 30px;
+		}
+	}
+`;
+
+const Square = styled.div`
+	height: 15px;
+	width: 15px;
+	margin-left: 10px;
+`;
+
+const Wow = styled.div`
+	background-color: white;
+	transition: 1s all;
 
 	&.active {
-		height: 35px;
+		transform: translateY(-100%);
+		img {
+			transform: rotate(90deg);
+		}
 	}
 `;
 
 const Closable = styled.div`
 	border-top: 1px solid lightgrey;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	background-color: white;
-	width: 200px;
 	padding: 7px;
 	transition: 0.9s all;
-	height: 30px;
-	z-index: 27 !important;
+	min-width: 170px;
 
 	h4 {
-		font-size: 0.9rem;
+		font-size: 0.8rem;
 		font-weight: 400;
+		padding-right: 10px;
+		padding-top: 5px;
 	}
 
 	img {
@@ -75,30 +102,20 @@ const Closable = styled.div`
 		width: 20px;
 	}
 
-	&.active {
-		max-height: 30px;
-		padding: 7px;
-		transform: translateY(-20px);
-
-		img {
-			transform: rotate(90deg);
+	@media (max-width: 1000px) {
+		justify-content: right;
+		padding-right: 20px;
+		h4 {
+			font-size: 0.9rem;
 		}
 	}
 `;
 
 const PointsHolder = styled.div`
-	padding: 10px;
+	background-color: white;
+	padding: 5px 10px;
 	transition: 0.9s all;
-	max-height: 180px;
 	opacity: 1;
-
-	&.active {
-		/* max-height: 20px; */
-		opacity: 0;
-		max-height: 0px;
-		/* padding: 0; */
-		transform: translateY(-150px);
-	}
 `;
 
 const Point = styled.div`
@@ -107,9 +124,18 @@ const Point = styled.div`
 	justify-content: end;
 	width: 100%;
 	z-index: 15;
+	min-height: 41px;
+	width: auto;
 
-	svg {
-		width: auto !important;
+	p {
+		font-size: 0.6rem;
+		padding-right: 5px;
+	}
+
+	@media (max-width: 1000px) {
+		p {
+			font-size: 0.8rem;
+		}
 	}
 `;
 

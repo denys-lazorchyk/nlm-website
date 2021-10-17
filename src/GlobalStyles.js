@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        /* height: 100vh; */
+        height: 100vh;
         width: 100vw;
         overflow: hidden;
         font-family: 'Poppins', sans-serif;

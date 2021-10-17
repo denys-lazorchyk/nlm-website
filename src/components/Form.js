@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import Markers from "./Markers";
+import Legends from "./Legends";
 import styled from "styled-components";
 import arrow from "../img/arrow.svg";
 
-const Form = ({ places, setPlaces, clicked, setCliked }) => {
+const Form = ({ places, setPlaces, clicked, setCliked, setClikedMarker }) => {
 	const [openMenu, setMenu] = useState(false);
 	const [title, setTitle] = useState("");
 	const [type, setType] = useState("");
 	const [amount, setAmount] = useState("");
+
+	const colors = {
+		przeplyw1: "#B9B9B9",
+		przeplyw2: "#01D404",
+		przeplyw3: "#D45202",
+		przeplyw4: "#0B4566",
+		przeplyw5: "#000000",
+		sprzedaż1: "#01D29C",
+		sprzedaż2: "#BB03D7",
+		sprzedaż3: "#780000",
+	};
 
 	const arrowHandler = () => {
 		setMenu(!openMenu);
@@ -42,6 +54,7 @@ const Form = ({ places, setPlaces, clicked, setCliked }) => {
 						type: type,
 						amount: amount,
 						title: title,
+						color: colors[type],
 					},
 				},
 			]);
@@ -58,9 +71,10 @@ const Form = ({ places, setPlaces, clicked, setCliked }) => {
 						open={openMenu}
 						places={places}
 						setPlcese={setPlaces}
+						setClikedMarker={setClikedMarker}
 					></Markers>
 				</MarkersHolder>
-				<Open>
+				<Open className={openMenu ? "active" : ""}>
 					<img
 						className="open"
 						src={arrow}
@@ -99,12 +113,10 @@ const Form = ({ places, setPlaces, clicked, setCliked }) => {
 						<option value="przeplyw2">Przeplyw - SUW/ZUW</option>
 						<option value="przeplyw3">Przeplyw - Zbiornik</option>
 						<option value="przeplyw4">Przeplyw międzystrefowy</option>
-						<option value="sprzedaż1">Sprzedaż - Oline</option>
+						<option value="sprzedaż1">Sprzedaż - Online</option>
 						<option value="sprzedaż2">Sprzedaż - odczyt co 12h</option>
 						<option value="sprzedaż3">Sprzedaż - odczyt ręczny</option>
-						<option value="przeplyw5" selected>
-							Przeplyw wirtualny
-						</option>
+						<option value="przeplyw5">Przeplyw wirtualny</option>
 					</select>
 
 					<label htmlFor="water">Średnia watrość Przepływu [m3/dzień]</label>
@@ -124,6 +136,9 @@ const Form = ({ places, setPlaces, clicked, setCliked }) => {
 						Zatwierdź
 					</button>
 				</Buttons>
+				<LegendsHolder>
+					<Legends></Legends>
+				</LegendsHolder>
 			</StyledForm>
 		</>
 	);
@@ -152,9 +167,19 @@ const StyledForm = styled.div`
 		width: 380px;
 		right: -300px;
 		padding-left: 80px;
+	}
 
-		img {
-			transform: translateX(-80px) rotate(180deg);
+	@media (max-width: 1000px) {
+		overflow-y: scroll;
+
+		&.active {
+			width: 380px;
+			right: -330px;
+			padding-left: 80px;
+
+			img {
+				transform: translateX(-95px) rotate(180deg);
+			}
 		}
 	}
 `;
@@ -176,6 +201,20 @@ const Open = styled.div`
 
 	h3 {
 		margin-right: 30px;
+	}
+
+	&.active {
+		img {
+			transform: translateX(-80px) rotate(180deg);
+		}
+	}
+
+	@media (max-width: 1000px) {
+		&.active {
+			img {
+				transform: translateX(-95px) rotate(180deg);
+			}
+		}
 	}
 `;
 
@@ -261,4 +300,9 @@ const Buttons = styled.div`
 const MarkersHolder = styled.div`
 	position: relative;
 `;
+
+const LegendsHolder = styled.div`
+	position: relative;
+`;
+
 export default Form;

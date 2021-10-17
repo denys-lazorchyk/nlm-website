@@ -1,5 +1,10 @@
+done:
+center a map on click
 add colorful points to legenda przypluwy
 add legenda strefy
+fix bugs width overlay
 make colorful markers based on amount
-center a map on click
+
+to do:
 responsiveness
+add redux
