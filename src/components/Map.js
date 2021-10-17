@@ -22,7 +22,7 @@ const Map = () => {
 		});
 
 		if (clickedMarker.clickedMarker) {
-			map.setView([
+			map.panTo([
 				clickedMarker.clickedMarker.lat,
 				clickedMarker.clickedMarker.lng,
 			]);

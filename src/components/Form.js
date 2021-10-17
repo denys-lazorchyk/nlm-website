@@ -30,22 +30,6 @@ const Form = () => {
 		sprzedaż3: "#780000",
 	};
 
-	const arrowHandler = () => {
-		setMenu(!openMenu);
-	};
-
-	const handleChangeTitle = (e) => {
-		dispatch(setTitle(e.target.value));
-	};
-
-	const handleChangeType = (e) => {
-		dispatch(setType(e.target.value));
-	};
-
-	const handleChangeAmount = (e) => {
-		dispatch(setAmount(+e.target.value));
-	};
-
 	const clearInput = () => {
 		dispatch(setTitle(""));
 		dispatch(setType(""));
@@ -82,7 +66,9 @@ const Form = () => {
 						className="open"
 						src={arrow}
 						alt="open/close arrow"
-						onClick={arrowHandler}
+						onClick={() => {
+							setMenu(!openMenu);
+						}}
 					/>
 					<h3>Przepływomierz</h3>
 				</Open>
@@ -102,7 +88,9 @@ const Form = () => {
 						id="eventTitle"
 						placeholder="Przykładowa nazwa"
 						value={title}
-						onChange={handleChangeTitle}
+						onChange={(e) => {
+							dispatch(setTitle(e.target.value));
+						}}
 					/>
 
 					<label htmlFor="eventType">Typ:</label>
@@ -110,7 +98,9 @@ const Form = () => {
 						name="cars"
 						id="eventType"
 						value={type}
-						onChange={handleChangeType}
+						onChange={(e) => {
+							dispatch(setType(e.target.value));
+						}}
 					>
 						<option value="przeplyw1">Przeplyw nieznany</option>
 						<option value="przeplyw2">Przeplyw - SUW/ZUW</option>
@@ -128,7 +118,9 @@ const Form = () => {
 						id="water"
 						placeholder="100"
 						value={amount}
-						onChange={handleChangeAmount}
+						onChange={(e) => {
+							dispatch(setAmount(+e.target.value));
+						}}
 					/>
 				</InputPlace>
 				<Buttons>
