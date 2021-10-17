@@ -2,8 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import Marker from "./Marker";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
 
-const Markers = ({ open, places, setClikedMarker }) => {
+const Markers = ({
+	open,
+	// places,
+	// setClikedMarker,
+	sdkufh,
+	sdioufn,
+	sd,
+	iusdhf,
+	iuhfi,
+}) => {
 	const colors = {
 		przeplyw1: "#B9B9B9",
 		przeplyw2: "#01D404",
@@ -15,6 +25,7 @@ const Markers = ({ open, places, setClikedMarker }) => {
 		sprzedaż3: "#780000",
 	};
 
+	const { places } = useSelector((state) => state.places);
 	return (
 		<StyledMarkers className={open ? "active" : ""}>
 			{places.length > 0 &&
@@ -23,7 +34,7 @@ const Markers = ({ open, places, setClikedMarker }) => {
 						<Marker
 							color={colors[place.data.type]}
 							place={place}
-							setClikedMarker={setClikedMarker}
+							// setClikedMarker={setClikedMarker}
 							key={uuidv4()}
 						></Marker>
 					);

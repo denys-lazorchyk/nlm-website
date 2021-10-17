@@ -9,28 +9,33 @@ import {
 	useMapEvent,
 	Circle,
 } from "react-leaflet";
+import { useDispatch, useSelector } from "react-redux";
+import { clikedAction } from "../actions/clikedAction";
+import { clikedMarkerNulify } from "../actions/clikedMarkerAction";
 
-const Map = ({
-	setCliked,
-	clicked,
-	places,
-	clickedMarker,
-	setClikedMarker,
-}) => {
+const Map = () => {
 	function MyComponent() {
 		const map = useMapEvent({
-			click: (e) => {
-				setCliked(e.latlng);
+			click: async (e) => {
+				dispatch(clikedAction(e.latlng));
 			},
 		});
 
-		if (clickedMarker) {
-			map.setView([clickedMarker.lat, clickedMarker.lng]);
-			setClikedMarker(null);
+		if (clickedMarker.clickedMarker) {
+			map.setView([
+				clickedMarker.clickedMarker.lat,
+				clickedMarker.clickedMarker.lng,
+			]);
+			dispatch(clikedMarkerNulify());
 		}
 
 		return null;
 	}
+
+	const dispatch = useDispatch();
+	const clicked = useSelector((state) => state.clicked);
+	const { places } = useSelector((state) => state.places);
+	const clickedMarker = useSelector((state) => state.clickedMarker);
 
 	return (
 		<MainMap center={[52.2297, 21.0122]} zoom={13} scrollWheelZoom={false}>
@@ -38,7 +43,12 @@ const Map = ({
 				attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{clicked && <Circle radius={200} center={[clicked.lat, clicked.lng]} />}
+			{clicked.clicked && (
+				<Circle
+					radius={200}
+					center={[clicked.clicked.lat, clicked.clicked.lng]}
+				/>
+			)}
 
 			{places.length &&
 				places.map((site) => {

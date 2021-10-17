@@ -1,6 +1,6 @@
-export const loadDetail = (data) => (dispatch) => {
-	dispatch({
-		type: "GET_PLACES",
-		payload: {},
-	});
+export const clikedAction = (data) => {
+	return {
+		type: "GET_CLIKED",
+		data: data,
+	};
 };

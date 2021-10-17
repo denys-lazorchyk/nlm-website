@@ -6,7 +6,7 @@ const placesReducer = (state = initState, action) => {
 	switch (action.type) {
 		case "GET_PLACES":
 			return {
-				...state,
+				places: [...state.places, action.data],
 			};
 		default:
 			return { ...state };

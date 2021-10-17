@@ -6,7 +6,12 @@ const clickedMarkerReducer = (state = initState, action) => {
 	switch (action.type) {
 		case "GET_CLIKED_MARKER":
 			return {
-				...state,
+				clickedMarker: { ...action.data.clikedMarker },
+			};
+
+		case "NULIFY":
+			return {
+				clickedMarker: action.data,
 			};
 		default:
 			return { ...state };

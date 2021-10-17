@@ -4,11 +4,20 @@ import Legends from "./Legends";
 import styled from "styled-components";
 import arrow from "../img/arrow.svg";
 
-const Form = ({ places, setPlaces, clicked, setCliked, setClikedMarker }) => {
+import { clikedAction } from "../actions/clikedAction";
+import { placesAction } from "../actions/placesAction.js";
+import { setType, setTitle, setAmount } from "../actions/inputActions";
+
+import { useSelector, useDispatch } from "react-redux";
+
+const Form = () => {
 	const [openMenu, setMenu] = useState(false);
-	const [title, setTitle] = useState("");
-	const [type, setType] = useState("");
-	const [amount, setAmount] = useState("");
+
+	const dispatch = useDispatch();
+	const { title } = useSelector((state) => state.input);
+	const { type } = useSelector((state) => state.input);
+	const { amount } = useSelector((state) => state.input);
+	const clicked = useSelector((state) => state.clicked);
 
 	const colors = {
 		przeplyw1: "#B9B9B9",
@@ -26,40 +35,39 @@ const Form = ({ places, setPlaces, clicked, setCliked, setClikedMarker }) => {
 	};
 
 	const handleChangeTitle = (e) => {
-		setTitle(e.target.value);
+		dispatch(setTitle(e.target.value));
 	};
 
 	const handleChangeType = (e) => {
-		setType(e.target.value);
+		dispatch(setType(e.target.value));
 	};
 
 	const handleChangeAmount = (e) => {
-		setAmount(+e.target.value);
+		dispatch(setAmount(+e.target.value));
 	};
 
 	const clearInput = () => {
-		setTitle("");
-		setType("");
-		setAmount("");
+		dispatch(setTitle(""));
+		dispatch(setType(""));
+		dispatch(setAmount(""));
 	};
 
 	const submitHandler = () => {
-		if (title && type && amount && clicked) {
-			setPlaces([
-				...places,
-				{
-					lat: clicked.lat,
-					lng: clicked.lng,
+		if (title && type && amount && clicked.clicked) {
+			dispatch(
+				placesAction({
+					lat: clicked.clicked.lat,
+					lng: clicked.clicked.lng,
 					data: {
 						type: type,
 						amount: amount,
 						title: title,
 						color: colors[type],
 					},
-				},
-			]);
+				})
+			);
 
-			setCliked(null);
+			dispatch(clikedAction(null));
 		}
 	};
 
@@ -67,12 +75,7 @@ const Form = ({ places, setPlaces, clicked, setCliked, setClikedMarker }) => {
 		<>
 			<StyledForm className={openMenu ? "active" : ""}>
 				<MarkersHolder>
-					<Markers
-						open={openMenu}
-						places={places}
-						setPlcese={setPlaces}
-						setClikedMarker={setClikedMarker}
-					></Markers>
+					<Markers open={openMenu}></Markers>
 				</MarkersHolder>
 				<Open className={openMenu ? "active" : ""}>
 					<img

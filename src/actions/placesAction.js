@@ -1,6 +1,6 @@
-export const loadDetail = (data) => (dispatch) => {
-	dispatch({
+export const placesAction = (data) => {
+	return {
 		type: "GET_PLACES",
-		payload: {},
-	});
+		data: data,
+	};
 };

@@ -1,13 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { clikedMarkerAction } from "../actions/clikedMarkerAction";
 
-const Marker = ({ color, place, setClikedMarker }) => {
+const Marker = ({ color, place }) => {
 	const markerHandler = () => {
 		if (place) {
-			setClikedMarker(place);
-			console.log(place);
+			console.log("place: ", place);
+			dispatch(clikedMarkerAction(place));
 		}
 	};
+
+	const dispatch = useDispatch();
 
 	return (
 		<div onClick={markerHandler}>

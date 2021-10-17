@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
 import clikedReducer from "./clickedReducer";
 import clickedMarkerReducer from "./clickedMarkerReducer";
-import inputReducer from "./inputreducer";
-import placesReducer from "./placesReducer.JS";
+import inputReducer from "./inputReducer";
+import placesReducer from "./placesReducer";
 
 const rootReducer = combineReducers({
-	cliked: clikedReducer,
+	clicked: clikedReducer,
 	input: inputReducer,
 	places: placesReducer,
-	clikedMarker: clickedMarkerReducer,
+	clickedMarker: clickedMarkerReducer,
 });
 
 export default rootReducer;

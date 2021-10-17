@@ -6,19 +6,22 @@ const initState = {
 
 const inputReducer = (state = initState, action) => {
 	switch (action.type) {
-		case "GET_TITLE":
+		case "SET_TITLE":
 			return {
-				title: state.title,
+				...state,
+				title: action.data.title,
 			};
 
-		case "GET_TYPE":
+		case "SET_TYPE":
 			return {
-				type: state.type,
+				...state,
+				type: action.data.type,
 			};
 
-		case "GET_AMOUNT":
+		case "SET_AMOUNT":
 			return {
-				amount: state.amount,
+				...state,
+				amount: action.data.amount,
 			};
 
 		case "GET_FULL_INPUT":

@@ -4,10 +4,21 @@ import ReactDOM from "react-dom";
 import GlobalStyles from "./GlobalStyles";
 import App from "./App";
 
+import { createStore } from "redux";
+import rootReducer from "./reducers";
+import { Provider } from "react-redux";
+
+const store = createStore(
+	rootReducer,
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
 	<React.StrictMode>
-		<GlobalStyles></GlobalStyles>
-		<App />
+		<Provider store={store}>
+			<GlobalStyles></GlobalStyles>
+			<App />
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
